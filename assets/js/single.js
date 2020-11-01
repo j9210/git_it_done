@@ -1,3 +1,5 @@
+var issueContainerEl = document.querySelector("#issues-container");
+
 var getRepoIssues = function(repo) {
     console.log(repo);
     var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
@@ -16,6 +18,11 @@ var getRepoIssues = function(repo) {
 };
 
 var displayIssues = function(issues) {
+    // return if repo has no issues
+    if (issues.length === 0) {
+        issueContainerEl.textContent = "This repo has no open issues!";
+        return;
+    }
     for (var i = 0; i < issues.length; i++) {
         // create a link element to take users to the issue on github
         var issueEl = document.createElement("a");
@@ -41,6 +48,8 @@ var displayIssues = function(issues) {
         }
         // append to container
         issueEl.appendChild(typeEl);
+
+        issueContainerEl.appendChild(issueEl);
     }
 }
 getRepoIssues("facebook/react");
